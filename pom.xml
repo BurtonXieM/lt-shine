@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>lt-shine</groupId>
+  <artifactId>lt-shine</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>lt-shine Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <spring.version>4.1.6.RELEASE</spring.version>
+    <mybatis.version>3.1.1</mybatis.version>
+    <mybatis-spring.version>1.1.1</mybatis-spring.version>
+    <junit.version>4.9</junit.version>
+    <mysql.version>5.1.21</mysql.version>
+    <freemarker.version>2.3.22</freemarker.version>
+    <commons-lang3.version>3.3.2</commons-lang3.version>
+    <shiro.version>1.2.3</shiro.version>
+
+    <!-- tools version setting -->
+    <commons-io.version>2.4</commons-io.version>
+    <commons-fileupload.version>1.3.1</commons-fileupload.version>
+    <commons-logging.version>1.1.1</commons-logging.version>
+    <commons-codec.version>1.7</commons-codec.version>
+    <jackson.version>2.7.3</jackson.version>
+    <fastjson.version>1.1.40</fastjson.version>
+    <jedis.version>2.1.0</jedis.version>
+
+    <!-- Logging -->
+    <slf4j.version>1.7.7</slf4j.version>
+    <logback.version>1.1.1</logback.version>
+
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <finalName>lt-shine</finalName>
+  </build>
+</project>

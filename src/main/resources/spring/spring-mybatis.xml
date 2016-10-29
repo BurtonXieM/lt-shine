@@ -60,14 +60,14 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springfr
 
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.cn.lt.*.*.dao"/>
+        <property name="basePackage" value="com.cn.lt.*.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
     <!-- 配置事务管理器 -->
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+  <!--  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
-    </bean>
+    </bean>-->
 
 
 
@@ -75,7 +75,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springfr
     <!--<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>-->
 
     <!-- 拦截器方式配置事物 -->
-    <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+    <!--<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="do*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
 
@@ -85,14 +85,14 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springfr
 
             <tx:method name="*" propagation="SUPPORTS"/>
         </tx:attributes>
-    </tx:advice>
-    <aop:config>
+    </tx:advice>-->
+    <!--<aop:config>
         <aop:pointcut id="transactionPointcut"
                       expression="execution(* com.cn.lt.*.*.service..*Impl.*(..))
                       or execution(* com.cn.lt.*.*.openService..*Impl.*(..))
                       or execution(* com.cn.lt.common.*..*Impl.*(..))"/>
         <aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice"/>
-    </aop:config>
+    </aop:config>-->
 
 
 

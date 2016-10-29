@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.lt.member.dao.MemberMapper">
+    <resultMap id="BaseResultMap" type="com.cn.lt.member.entity.Member" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+        <result column="login_password" property="loginPassword" jdbcType="VARCHAR" />
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="is_delete" property="isDelete" jdbcType="CHAR" />
+        <result column="member_type" property="memberType" jdbcType="CHAR" />
+        <result column="head_portrait" property="headPortrait" jdbcType="VARCHAR" />
+        <result column="salt" property="salt" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="CHAR" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, login_name, login_password, nick_name, email, phone, is_delete, member_type,
+        head_portrait, salt, status, create_date, update_date
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from member
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from member
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.cn.lt.member.entity.Member" useGeneratedKeys="true" keyProperty="id">
+        insert into member (id, login_name, login_password,
+        nick_name, email, phone,
+        is_delete, member_type, head_portrait,
+        salt, status, create_date,
+        update_date)
+        values (#{id,jdbcType=INTEGER}, #{loginName,jdbcType=VARCHAR}, #{loginPassword,jdbcType=VARCHAR},
+        #{nickName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+        #{isDelete,jdbcType=CHAR}, #{memberType,jdbcType=CHAR}, #{headPortrait,jdbcType=VARCHAR},
+        #{salt,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, now(),
+        #{updateDate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.cn.lt.member.entity.Member" useGeneratedKeys="true" keyProperty="id">
+        insert into member
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="loginName != null" >
+                login_name,
+            </if>
+            <if test="loginPassword != null" >
+                login_password,
+            </if>
+            <if test="nickName != null" >
+                nick_name,
+            </if>
+            <if test="email != null" >
+                email,
+            </if>
+            <if test="phone != null" >
+                phone,
+            </if>
+            <if test="isDelete != null" >
+                is_delete,
+            </if>
+            <if test="memberType != null" >
+                member_type,
+            </if>
+            <if test="headPortrait != null" >
+                head_portrait,
+            </if>
+            <if test="salt != null" >
+                salt,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="createDate != null" >
+                create_date,
+            </if>
+            <if test="updateDate != null" >
+                update_date,
+            </if>
+            <if test="deviceId!= null" >
+                device_id,
+            </if>
+            <if test="deviceType!= null" >
+                device_type,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="loginName != null" >
+                #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPassword != null" >
+                #{loginPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null" >
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null" >
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null" >
+                #{isDelete,jdbcType=CHAR},
+            </if>
+            <if test="memberType != null" >
+                #{memberType,jdbcType=CHAR},
+            </if>
+            <if test="headPortrait != null" >
+                #{headPortrait,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null" >
+                #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=CHAR},
+            </if>
+            <if test="createDate != null" >
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null" >
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deviceId != null" >
+                #{deviceId},
+            </if>
+            <if test="deviceType!= null" >
+                #{deviceType},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cn.lt.member.entity.Member" >
+        update member
+        <set >
+            <if test="loginName != null" >
+                login_name = #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPassword != null" >
+                login_password = #{loginPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null" >
+                nick_name = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null" >
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null" >
+                is_delete = #{isDelete,jdbcType=CHAR},
+            </if>
+            <if test="memberType != null" >
+                member_type = #{memberType,jdbcType=CHAR},
+            </if>
+            <if test="headPortrait != null" >
+                head_portrait = #{headPortrait,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null" >
+                salt = #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=CHAR},
+            </if>
+            <if test="createDate != null" >
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null" >
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cn.lt.member.entity.Member" >
+        update member
+        set login_name = #{loginName,jdbcType=VARCHAR},
+        login_password = #{loginPassword,jdbcType=VARCHAR},
+        nick_name = #{nickName,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=VARCHAR},
+        is_delete = #{isDelete,jdbcType=CHAR},
+        member_type = #{memberType,jdbcType=CHAR},
+        head_portrait = #{headPortrait,jdbcType=VARCHAR},
+        salt = #{salt,jdbcType=VARCHAR},
+        status = #{status,jdbcType=CHAR},
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+        update_date = #{updateDate,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

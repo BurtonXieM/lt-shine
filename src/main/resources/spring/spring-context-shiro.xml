@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+
+
+  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <!-- 加载配置属性文件 -->
+
+    <bean id="myShiro" class="com.cn.lt.sys.security.MyAuthorizingRealm">
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+        <property name="cachingEnabled" value="true"/>
+        <!--<property name="authenticationCachingEnabled" value="true"/>-->
+        <!--<property name="authenticationCacheName" value="authenticationCache"/>-->
+        <!--<property name="authorizationCachingEnabled" value="true"/>-->
+        <!--<property name="authorizationCacheName" value="authorizationCache"/>-->
+    </bean>
+    <!-- 限制并发登录人数-->
+    <bean id="kickoutSessionControlFilter"
+          class="com.cn.lt.common.filter.KickoutSessionControlFilter">
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="sessionManager" ref="defaultWebSessionManager"/>
+        <property name="kickoutAfter" value="false"/>
+        <property name="maxSession" value="1"/>
+        <property name="kickoutUrl" value="/login?kickout=1"/>
+    </bean>
+    <bean id="redirectSessionFilter" class="com.cn.lt.common.filter.RedirectSessionFilter"/>
+
+
+
+    <!-- 凭证匹配器 -->
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <!-- 指定hash算法为MD5 -->
+        <property name="hashAlgorithmName" value="md5"/>
+        <!-- 指定散列次数为2次 -->
+        <property name="hashIterations" value="2"/>
+        <!-- 如果value="false" 表明hash散列值用用Base64-encoded存储。  -->
+        <!-- 指定Hash散列值使用Hex加密存储。 -->
+        <property name="storedCredentialsHexEncoded" value="true"/>
+    </bean>
+
+    <!-- 配置权限管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!-- ref对应我们写的realm  MyShiro -->
+        <property name="realm" ref="myShiro"/>
+        <!-- 使用下面配置的缓存管理器 -->
+        <property name="cacheManager" ref="customShiroCacheManager"/>
+        <!-- 配置sessionManager-->
+        <property name="sessionManager" ref="defaultWebSessionManager"/>
+    </bean>
+    <!-- 配置shiro的过滤器工厂类，id- shiroFilter要和我们在web.xml中配置的过滤器一致 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- 调用我们配置的权限管理器 -->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 配置我们的登录请求地址 -->
+        <property name="loginUrl" value="/login"/>
+        <!-- 配置我们在登录页登录成功后的跳转地址，如果你访问的是非/login地址，则跳到您访问的地址 -->
+        <property name="successUrl" value="/index"/>
+        <!-- 如果您请求的资源不再您的权限范围，则跳转到/403请求地址 -->
+        <!--<property name="unauthorizedUrl" value="/404"/>-->
+        <property name="filters">
+            <util:map>
+                <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
+                <entry key="redirect" value-ref="redirectSessionFilter"/>
+            </util:map>
+        </property>
+        <!-- 权限配置 -->
+        <property name="filterChainDefinitions">
+            <value>
+                <!-- anon表示此地址不需要任何权限即可访问 -->
+                / = kickout,anon
+                /asset/**=anon
+                /static/**=anon
+                /account/login = anon
+                /account/test = anon
+                /account/login.json = anon
+                /index/** = kickout,anon
+                /loginSubmit.json = anon
+                /isLogin = anon
+                /verify/** = anon
+                /verify** = anon
+                /p/**/** = anon
+                <!--商品详情跳转不拦截 -->
+                /goods/goodsDetail = anon,redirect
+                <!--尾品特卖，一元购跳转不拦截 -->
+                /activation/specialIndex= anon,redirect
+                /activation/oneBuyIndex= anon,redirect
+                <!--图片上传不拦截 -->
+                /uploadPic.json = anon
+                <!--店铺搜索不拦截 -->
+                /search/searchShop = anon,redirect
+                <!--搜索按钮不拦截 -->
+                /search/searchList = anon,redirect
+                <!--列表检索不拦截 -->
+                /list/searchList = anon,redirect
+                <!--新闻 -->
+                /news/** = anon,redirect
+                <!--app下载-->
+                /down/**= anon
+                <!--首页名品汇 -->
+                /brand/index = anon,redirect
+                <!--求购驿站 -->
+                /opty/purchaseAllList = anon,redirect
+                <!-- 供应广场 -->
+                /opty/supplierAllList = anon,redirect
+                /opty/purchase = anon,redirect
+                /opty/supplier = anon,redirect
+                <!--意见反馈不拦截-->
+                /feedBack/saveFeedBackMsg.json = anon
+                <!--生成首页-->
+                /homePage/createIndex=anon
+                <!--生成分类-->
+                /homePage/createCateList=anon
+                /homePage/createCateListB=anon
+                <!-- 店铺首页 -->
+                /shop/shopIndex = anon,redirect
+                <!--店铺列表页 -->
+                /shop/shopList = anon,redirect
+                <!--店铺详情页 -->
+                /shop/shopAboutUs = anon,redirect
+                <!--店铺代理商品 -->
+                /shop/agentGoods = anon,redirect
+                <!--帮助中心 -->
+                /help/** = anon,redirect
+                <!--支付 -->
+                /alipay/notifyUrl = anon
+                /alipay/returnUrl = anon
+                <!--易宝支付成功回调接口-->
+                /yeePay/payApiCallback = anon
+                <!--分账成功回调接口-->
+                /center/divideMoneyCallBackMethod = anon
+                <!--子账号修改成功回调-->
+                /yeeAccount/regCallBackUrl = anon
+                /logout = logout
+                /manager/**=anon
+                /register/*= anon
+                <!---专题-->
+                /special/** = anon,redirect
+                /error/** = anon
+
+                /** = kickout,authc
+
+                <!--/** = user  -->
+                <!--/userfiles/** = anon  -->
+                <!--/login = authc -->
+                <!-- perms[user:query]表示访问此连接需要权限为user:query的用户 -->
+                <!-- /user=perms[user:query] -->
+                <!-- roles[manager]表示访问此连接需要用户的角色为manager -->
+                <!-- /user/add=roles[manager]
+                    /user/del/**=roles[admin]
+                    /user/edit/**=roles[manager]
+                -->
+                <!--所有的请求(除去配置的静态资源请求或请求地址为anon的请求)都要通过登录验证,如果未登录则跳到/login-->
+            </value>
+        </property>
+    </bean>
+    <!-- custom shiro session listener -->
+    <bean id="customSessionListener" class="com.cn.lt.common.listener.CustomSessionListener">
+        <property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
+    </bean>
+    <bean id="logout" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <property name="redirectUrl" value="/index" />
+    </bean>
+
+    <!--缓存管理器-->
+    <bean id="customShiroCacheManager" class="com.cn.lt.common.cache.CustomShiroCacheManager">
+        <property name="shiroCacheManager" ref="jedisShiroCacheManager"/>
+    </bean>
+    <!-- ShiroCacheManager interface impl class by redis,save authorization info to redis -->
+    <bean id="jedisShiroCacheManager" class="com.cn.lt.common.cache.JedisShiroCacheManager">
+        <property name="jedisManager" ref="jedisManager"/>
+    </bean>
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- sessionManager-->
+    <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="globalSessionTimeout" value="1800000"/>
+        <property name="sessionDAO" ref="customSessionDao"/>
+        <property name="sessionIdCookie" ref="simpleCookie"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="deleteInvalidSessions" value="true"/>
+        <property name="sessionIdCookie.domain" value="${sessionIdCookie.domain}"/>
+        <property name="sessionIdCookie.path" value="/"/>
+    </bean>
+    <bean id="sessionValidationScheduler"
+          class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
+        <property name="sessionManager" ref="defaultWebSessionManager"/>
+        <property name="interval" value="${session.validate.timespan}"/>
+    </bean>
+
+    <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg index="0" value="JSESSIONID_COOKIE"/>
+        <property name="httpOnly" value="true"/>
+    </bean>
+    <!-- customSessionDao-->
+    <bean id="customSessionDao" class="com.cn.lt.common.session.CustomShiroSessionDao">
+        <property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
+    </bean>
+    <!-- jedisShiroSessionRepository-->
+    <bean id="jedisShiroSessionRepository" class="com.cn.lt.common.session.JedisShiroSessionRepository">
+        <property name="jedisManager" ref="jedisManager"/>
+    </bean>
+    <!-- jedisManager-->
+    <bean id="jedisManager" class="com.cn.lt.common.util.JedisManager">
+        <property name="jedisPool" ref="jedisPool"/>
+    </bean>
+
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
+
+</beans>

@@ -3,6 +3,8 @@ package com.cn.lt.member.dao;
 
 import com.cn.lt.member.entity.Member;
 
+import java.util.List;
+
 public interface MemberMapper {
     public int deleteByPrimaryKey(Integer id) ;
 
@@ -20,4 +22,5 @@ public interface MemberMapper {
 
     public int updatePassword(Member member);
 
+    List<Member> findUserByLoginName(String loginName);
 }

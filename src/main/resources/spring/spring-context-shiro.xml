@@ -17,14 +17,14 @@
         <!--<property name="authorizationCacheName" value="authorizationCache"/>-->
     </bean>
     <!-- 限制并发登录人数-->
-    <bean id="kickoutSessionControlFilter"
+    <!--<bean id="kickoutSessionControlFilter"
           class="com.cn.lt.common.filter.KickoutSessionControlFilter">
         <property name="cacheManager" ref="cacheManager"/>
         <property name="sessionManager" ref="defaultWebSessionManager"/>
         <property name="kickoutAfter" value="false"/>
         <property name="maxSession" value="1"/>
         <property name="kickoutUrl" value="/login?kickout=1"/>
-    </bean>
+    </bean>-->
     <bean id="redirectSessionFilter" class="com.cn.lt.common.filter.RedirectSessionFilter"/>
 
 
@@ -45,7 +45,7 @@
         <!-- ref对应我们写的realm  MyShiro -->
         <property name="realm" ref="myShiro"/>
         <!-- 使用下面配置的缓存管理器 -->
-        <property name="cacheManager" ref="customShiroCacheManager"/>
+        <!--<property name="cacheManager" ref="customShiroCacheManager"/>-->
         <!-- 配置sessionManager-->
         <property name="sessionManager" ref="defaultWebSessionManager"/>
     </bean>
@@ -59,12 +59,12 @@
         <property name="successUrl" value="/index"/>
         <!-- 如果您请求的资源不再您的权限范围，则跳转到/403请求地址 -->
         <!--<property name="unauthorizedUrl" value="/404"/>-->
-        <property name="filters">
+       <!-- <property name="filters">
             <util:map>
                 <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
                 <entry key="redirect" value-ref="redirectSessionFilter"/>
             </util:map>
-        </property>
+        </property>-->
         <!-- 权限配置 -->
         <property name="filterChainDefinitions">
             <value>
@@ -156,28 +156,28 @@
         </property>
     </bean>
     <!-- custom shiro session listener -->
-    <bean id="customSessionListener" class="com.cn.lt.common.listener.CustomSessionListener">
+    <!--<bean id="customSessionListener" class="com.cn.lt.common.listener.CustomSessionListener">
         <property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
-    </bean>
+    </bean>-->
     <bean id="logout" class="org.apache.shiro.web.filter.authc.LogoutFilter">
         <property name="redirectUrl" value="/index" />
     </bean>
 
     <!--缓存管理器-->
-    <bean id="customShiroCacheManager" class="com.cn.lt.common.cache.CustomShiroCacheManager">
+    <!--<bean id="customShiroCacheManager" class="com.cn.lt.common.cache.CustomShiroCacheManager">
         <property name="shiroCacheManager" ref="jedisShiroCacheManager"/>
-    </bean>
+    </bean>-->
     <!-- ShiroCacheManager interface impl class by redis,save authorization info to redis -->
-    <bean id="jedisShiroCacheManager" class="com.cn.lt.common.cache.JedisShiroCacheManager">
+   <!-- <bean id="jedisShiroCacheManager" class="com.cn.lt.common.cache.JedisShiroCacheManager">
         <property name="jedisManager" ref="jedisManager"/>
-    </bean>
+    </bean>-->
 
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
     <!-- sessionManager-->
     <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="globalSessionTimeout" value="1800000"/>
-        <property name="sessionDAO" ref="customSessionDao"/>
+        <!--<property name="sessionDAO" ref="customSessionDao"/>-->
         <property name="sessionIdCookie" ref="simpleCookie"/>
         <property name="sessionValidationSchedulerEnabled" value="true"/>
         <property name="deleteInvalidSessions" value="true"/>
@@ -195,17 +195,17 @@
         <property name="httpOnly" value="true"/>
     </bean>
     <!-- customSessionDao-->
-    <bean id="customSessionDao" class="com.cn.lt.common.session.CustomShiroSessionDao">
+    <!--<bean id="customSessionDao" class="com.cn.lt.common.session.CustomShiroSessionDao">
         <property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
-    </bean>
+    </bean>-->
     <!-- jedisShiroSessionRepository-->
-    <bean id="jedisShiroSessionRepository" class="com.cn.lt.common.session.JedisShiroSessionRepository">
+    <!--<bean id="jedisShiroSessionRepository" class="com.cn.lt.common.session.JedisShiroSessionRepository">
         <property name="jedisManager" ref="jedisManager"/>
-    </bean>
+    </bean>-->
     <!-- jedisManager-->
-    <bean id="jedisManager" class="com.cn.lt.common.util.JedisManager">
+    <!--<bean id="jedisManager" class="com.cn.lt.common.util.JedisManager">
         <property name="jedisPool" ref="jedisPool"/>
-    </bean>
+    </bean>-->
 
     <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
 

@@ -85,19 +85,18 @@ public class MyAuthorizingRealm extends AuthorizingRealm {
             throw new DisabledAccountException(e.getMessage());
         }*/
         //检查用户账号状态，
-        if(!isTrue) {
+        /*if(!isTrue) {
             throw new LockedAccountException("账号被冻结");
 
-        }
+        }*/
         Member member = memberList.get(0);
         if("5".equals(member.getMemberType()) || "6".equals(member.getMemberType()) || "7".equals(member.getMemberType())) {
             throw new DisabledAccountException("运营账号不能登陆");
         }
         //Integer cartId = cartService.findCartId(member.getId());
-
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                //new Principal(member, cartId),//用户名
+                new Principal(member),//用户名
                 member.getLoginPassword(), //密码
                 ByteSource.Util.bytes(member.getSalt()),
                 getName()  //realm name
@@ -158,11 +157,11 @@ public class MyAuthorizingRealm extends AuthorizingRealm {
         private String status;
 
 
-        public Principal(Member member, Integer cartId) {
+        public Principal(Member member) {
             this.id = member.getId();
             this.loginName = member.getLoginName();
             this.phone = member.getPhone();
-            this.cartId = cartId;
+            //this.cartId = cartId;
             this.email = member.getEmail();
             this.memberType = member.getMemberType();
             this.status = member.getStatus();

@@ -56,4 +56,9 @@ public class MemberController {
         }
         return "success" ;
     }
+    @RequestMapping("test")
+    public String test(){
+
+        return "member/index" ;
+    }
 }

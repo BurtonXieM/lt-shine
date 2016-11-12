@@ -75,6 +75,7 @@
                 /account/login = anon
                 /account/test = anon
                 /account/login.json = anon
+                /member/** = anon
                 <!--/index/** = kickout,anon-->
                <!-- /loginSubmit.json = anon
                 /isLogin = anon
@@ -138,8 +139,8 @@
                 &lt;!&ndash;-专题&ndash;&gt;
                 /special/** = anon,redirect
                 /error/** = anon
-
-                /** = kickout,authc-->
+                -->
+                /** = authc
 
                 <!--/** = user  -->
                 <!--/userfiles/** = anon  -->

@@ -42,8 +42,8 @@ public class MemberController {
     @ResponseBody
     public String login(){
 
-        String loginName = "" ;
-        String password = "" ;
+        String loginName = "weihua123" ;
+        String password = "wk1234" ;
 
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(loginName,password) ;
@@ -51,8 +51,14 @@ public class MemberController {
             subject.login(token);
         } catch (Exception e) {
             //logger.error("error:{}", e);
+            e.printStackTrace();
             return "abc";
         }
         return "success" ;
+    }
+    @RequestMapping("test")
+    public String test(){
+
+        return "member/index" ;
     }
 }

@@ -1,5 +1,6 @@
 package com.cn.lt.member.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.cn.lt.member.dao.MemberMapper;
 import com.cn.lt.member.entity.Member;
 import com.cn.lt.sys.security.UsernamePasswordToken;
@@ -7,6 +8,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,8 +59,16 @@ public class MemberController {
         return "success" ;
     }
     @RequestMapping("test")
+    @ResponseBody
     public String test(){
-
-        return "member/index" ;
+        SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal();
+        Object object = SecurityUtils.getSubject().getPrincipals(). getPrimaryPrincipal();
+        String str = JSON.toJSONString(object);
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        System.out.println(session.getId());
+        System.out.println(session.getHost());
+        System.out.println(session.getTimeout());
+        return str ;
     }
 }

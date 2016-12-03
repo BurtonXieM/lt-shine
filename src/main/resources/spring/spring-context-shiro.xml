@@ -70,6 +70,7 @@
             <value>
                 <!-- anon表示此地址不需要任何权限即可访问 -->
             <!--    / = kickout,anon-->
+                / = anon
                 /asset/**=anon
                 /static/**=anon
                 /account/login = anon

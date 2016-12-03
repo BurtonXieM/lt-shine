@@ -19,6 +19,7 @@ import java.util.Set;
  * @author Timothy
  * @version 2015-12-04
  */
+
 public class JedisShiroSessionRepository implements ShiroSessionRepository {
     public static final Logger logger = LoggerFactory.getLogger(JedisShiroSessionRepository.class);
 
@@ -107,3 +108,4 @@ public class JedisShiroSessionRepository implements ShiroSessionRepository {
         this.jedisManager = jedisManager;
     }
 }
+

@@ -1,4 +1,4 @@
-package com.cn.lt.common.utils;
+package com.cn.lt.common.util;
 
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;

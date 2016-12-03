@@ -7,7 +7,6 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +24,7 @@ import com.cn.lt.front.cart.service.CartService;*/
 @Transactional
 public class MyAuthorizingRealm extends AuthorizingRealm {
 
-    public static final org.slf4j.Logger logger = LoggerFactory.getLogger(MyAuthorizingRealm.class);
+    //public static final org.slf4j.Logger logger = LoggerFactory.getLogger(MyAuthorizingRealm.class);
 
     @Autowired
     private MemberService memberService;
